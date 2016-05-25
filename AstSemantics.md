@@ -285,12 +285,13 @@ before any others.
 
 ### Yielding values from control constructs
 
-The `nop`, `if`, `br`, `br_if`, and `return` constructs do not yield values.
+The `nop`, `if`, `br`, and `return` constructs do not yield values.
 Other control constructs may yield values if their subexpressions yield values:
 
 * `block`: yields either the value of the last expression in the block or the result of an inner `br` that targeted the label of the block
 * `loop`: yields either the value of the last expression in the loop or the result of an inner `br` that targeted the end label of the loop
 * `if_else`: yields either the value of the true expression or the false expression
+* `br_if`: yields the value of its value operand, if present, or no value otherwise
 
 
 ### `br_table`
