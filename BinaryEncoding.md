@@ -162,12 +162,23 @@ The type section declares all function signatures that will be used in the modul
 | entries | `type_entry*` | repeated type entries as described below |
 
 #### Type entry
+
+##### Function type
+
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | form | `varuint7` | `0x40`, indicating a function type |
 | param_count | `varuint32` | the number of parameters to the function |
 | param_types | `value_type*` | the parameter types of the function |
 | return_count | `varuint1` | the number of results from the function |
+| return_type | `value_type?` | the result type of the function (if return_count is 1) |
+
+##### Block type
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| form | `varuint7` | `0x41`, indicating a block type |
+| return_count | `varuint1` | the number of results from the block |
 | return_type | `value_type?` | the result type of the function (if return_count is 1) |
 
 (Note: In the future, this section may contain other forms of type entries as well, which can be distinguished by the `form` field.)
@@ -439,20 +450,21 @@ It is legal to have several entries with the same type.
 | Name | Opcode | Immediates | Description |
 | ---- | ---- | ---- | ---- |
 | `unreachable` | `0x00` | | trap immediately |
-| `block` | `0x01` |  | begin a sequence of expressions, the last of which yields a value |
+| `block` | `0x01` | sig : `varuint32` | begin a sequence of expressions, yielding 0 or 1 values |
 | `loop` | `0x02` |  | begin a block which can also form control flow loops |
-| `if` | `0x03` | | begin if expression |
+| `if` | `0x03` | sig : `varuint32` | begin if expression |
 | `else` | `0x04` | | begin else expression of if |
 | `select` | `0x05` | | select one of two values based on condition |
-| `br` | `0x06` | arity : `varuint1`, relative_depth : `varuint32` | break that targets an outer nested block |
-| `br_if` | `0x07` | arity : `varuint1`, relative_depth : `varuint32` | conditional break that targets an outer nested block |
+| `br` | `0x06` | relative_depth : `varuint32` | break that targets an outer nested block |
+| `br_if` | `0x07` | relative_depth : `varuint32` | conditional break that targets an outer nested block |
 | `br_table` | `0x08` | see below | branch table control flow construct |
 | `return` | `0x09` | return zero or one value from this function |
 | `drop` | `0x0b` | | ignore value |
 | `nop` | `0x0a` | | no operation |
 | `end` | `0x0f` | | end a block, loop, or if |
 
-The counts following the break operators specify how many operands are taken as transfer arguments; in the MVP, all these values must be either 0 or 1.
+The _signatures_ of `block` and `if` operators specify their use of the operand stack.
+In the MVP, all signatures must have 0 arguments and 0 or 1 return values.
 
 The `br_table` operator has an immediate operand which is encoded as follows:
 
