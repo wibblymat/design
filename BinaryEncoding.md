@@ -136,9 +136,9 @@ The content of each section is encoded in its `payload_str`.
 * [Type](#type-section) section
 * [Import](#import-section) section
 * [Function](#function-section) section
+* [Global](#global-section) section
 * [Table](#table-section) section
 * [Memory](#memory-section) section
-* [Global](#global-section) section
 * [Export](#export-section) section
 * [Start](#start-section) section
 * [Code](#code-section) section
