@@ -58,7 +58,7 @@ All types are distinguished by a negative `varint7` values that is the first byt
 | Opcode | Type constructor |
 |--------|------------------|
 | `-0x01` (i.e., the byte `0x7f`) | `i32` |
-| `-0x02` (i.e., the byte `0x7e`) | `i32` |
+| `-0x02` (i.e., the byte `0x7e`) | `i64` |
 | `-0x03` (i.e., the byte `0x7d`) | `f32` |
 | `-0x04` (i.e., the byte `0x7c`) | `f64` |
 | `-0x10` (i.e., the byte `0x70`) | `anyfunc` |
@@ -214,7 +214,7 @@ The type section declares all function signatures that will be used in the modul
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | count | `varuint32` | count of type entries to follow |
-| entries | `func_type*` | repeated type entries as described below |
+| entries | `func_type*` | repeated type entries as described above |
 
 Note: In the future, this section may contain other forms of type entries as well, which can be distinguished by the `form` field of the type encoding.
 
@@ -279,7 +279,7 @@ The encoding of a [Table section](Modules.md#table-section):
 | Field | Type | Description |
 | ----- |  ----- | ----- |
 | count | `varuint32` | indicating the number of tables defined by the module |
-| entries | `table_type*` | repeated `table_type` entries as described below |
+| entries | `table_type*` | repeated `table_type` entries as described above |
 
 In the MVP, the number of tables must be no more than 1.
 
@@ -292,7 +292,7 @@ The encoding of a [Memory section](Modules.md#linear-memory-section):
 | Field | Type | Description |
 | ----- |  ----- | ----- |
 | count | `varuint32` | indicating the number of memories defined by the module |
-| entries | `memory_type*` | repeated `memory_type` entries as described below |
+| entries | `memory_type*` | repeated `memory_type` entries as described above |
 
 Note that the initial/maximum fields are specified in units of 
 [WebAssembly pages](Semantics.md#linear-memory).
